@@ -71,6 +71,7 @@ class _UpdatesState extends State<Updates> {
                         padding: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
                         decoration: BoxDecoration(
                           color: y,
+
                           borderRadius: BorderRadius.circular(20),
                           border: Border.all(color: Colors.black,width: 2),
                         ),
