@@ -20,6 +20,11 @@ A pocket friendly mobile application for lodging and managing FIR online. The ma
 - Can add any progress in court.
 - Can delete the case after completion of the case.
 
+## Tech Stack :~
+
+- <strong>Frontend: </strong> Flutter framework with dart lanuage.
+- <strong>Backend: </strong> PHP with MySql query.
+
 ## Contributors :~
 1. Utkarsh Gangwar  (IIT2019023)
 2. Utkarsh Garg     (IIT2019026)
