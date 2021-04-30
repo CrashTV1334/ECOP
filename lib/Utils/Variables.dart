@@ -3,6 +3,7 @@ import 'package:ecop/Models/CopModel.dart';
 import 'package:ecop/Models/CourtModel.dart';
 import 'package:ecop/Models/FIRModel.dart';
 import 'package:ecop/Models/UserModel.dart';
+import 'package:ecop/Models/chat.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 
@@ -16,6 +17,7 @@ CopModel Cop = CopModel();
 CourtModel Court = CourtModel();
 List<FIRModel> AllRunningFIR = [];
 List<CaseModel> AllRunningCases = [];
+List<chatModel> MyChat = [];
 FIRModel thisFIR = FIRModel();
 String updateindex;
 

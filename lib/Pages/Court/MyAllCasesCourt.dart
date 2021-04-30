@@ -1,4 +1,7 @@
+import 'package:ecop/API/AllUpdates.dart';
 import 'package:ecop/API/Court/DeleteCaseAPI.dart';
+import 'package:ecop/API/FindUpdateIndex.dart';
+import 'package:ecop/Pages/Updates.dart';
 import 'package:ecop/Utils/Variables.dart';
 import 'package:flutter/material.dart';
 
@@ -25,7 +28,20 @@ class _MyAllCasesCourtState extends State<MyAllCasesCourt> {
               else if(AllRunningCases[index].Status == "CLOSED") x = Colors.green[200];
               return InkWell(
                 onTap: (){
-                  if(AllRunningCases[index].Status == "OPEN") _showMyDialog(AllRunningCases[index].CaseId);
+                  bool send = false;
+                  if(AllRunningCases[index].Status == "OPEN") send = true;
+                  if(AllRunningCases[index].Status == "OPEN") _showMyDialog(AllRunningCases[index].CaseId,send);
+                  else{
+                    FindUpdateIndex(AllRunningCases[index].CaseId, context).then((value){
+                      if(value){
+                        AllUpdates(context).then((value){
+                          bool send = false;
+                          if(AllRunningCases[index].Status == "OPEN") send = true;
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => Updates(send)));
+                        });
+                      }
+                    });
+                  }
                 },
                 child: Container(
                   margin: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
@@ -61,7 +77,7 @@ class _MyAllCasesCourtState extends State<MyAllCasesCourt> {
     );
   }
 
-  Future<void> _showMyDialog(String a) async {
+  Future<void> _showMyDialog(String a, bool send) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -94,7 +110,14 @@ class _MyAllCasesCourtState extends State<MyAllCasesCourt> {
             TextButton(
               child: Text('Update'),
               onPressed: () {
-
+                FindUpdateIndex(a, context).then((value){
+                  if(value){
+                    AllUpdates(context).then((value){
+                      Navigator.of(context).pop();
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => Updates(send)));
+                    });
+                  }else Navigator.of(context).pop();
+                });
               },
             ),
           ],
