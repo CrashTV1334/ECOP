@@ -43,9 +43,10 @@ class _ViewFIRState extends State<ViewFIR> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(a + ": ",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold)),
-        Text(b,style: TextStyle(fontSize: 20),)
+        Expanded(child: Text(b,style: TextStyle(fontSize: 20),))
       ],
     );
   }

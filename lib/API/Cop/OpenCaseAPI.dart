@@ -18,6 +18,7 @@ Future<bool> OpenCaseAPI(String firid, String copid, String courtid, String user
     "Status": "OPEN",
   };
   var response = await http.post(Uri.parse(AddNewCaseUrl),body: data);
+  print(response.body);
   Map<dynamic, dynamic> res = await jsonDecode(response.body.toString());
   if(res["error"] == "Success") return true;
   MakeToast(res["error"], context);
