@@ -6,7 +6,6 @@
   try {
         $a = (String)$_POST['CaseId'];
         $sql = $conn->query("SELECT FirId FROM `Case` WHERE CaseId = '{$a}'");
-        // $b = $sql->fetch_assoc();
         $res=array();
         while($row=$sql->fetch_assoc()){
         $res[] = $row;
