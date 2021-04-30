@@ -32,7 +32,7 @@ class _MyCaseCopState extends State<MyCaseCop> {
                       AllUpdates(context).then((value){
                         bool send = false;
                         if(AllRunningCases[index].Status == "OPEN") send = true;
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => Updates(send)));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => Updates(send,AllRunningCases[index].CaseId)));
                       });
                     }
                   });

@@ -13,3 +13,4 @@ String AllAvailableFIRRouteCode = "/Cop/FIR";
 String MyAllFIRCopRouteCode = "/Cop/MyFIR";
 String MyAllCasesCopRouteCode = "/Cop/MyCase";
 String MyAllCasesCourtRouteCode = "/Court/MyCase";
+String ViewFIRRouteCode = "/viewFIR";

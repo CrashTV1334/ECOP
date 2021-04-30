@@ -1,11 +1,15 @@
+import 'dart:async';
+
 import 'package:ecop/API/AllUpdates.dart';
+import 'package:ecop/API/FIRFromCaseIdAPI.dart';
 import 'package:ecop/API/SendUpdate.dart';
 import 'package:ecop/Utils/Variables.dart';
 import 'package:flutter/material.dart';
 
 class Updates extends StatefulWidget {
   bool send;
-  Updates(this.send);
+  String caseId;
+  Updates(this.send, this.caseId);
 
   @override
   _UpdatesState createState() => _UpdatesState();
@@ -17,10 +21,31 @@ class _UpdatesState extends State<Updates> {
   bool errorController = false;
 
   @override
+  void initState() {
+    Timer.periodic(Duration(seconds: 10), (val){
+      AllUpdates(context).then((value){
+        if(this.mounted) setState(() {});
+      });
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Updates"),
+        actions: [
+          InkWell(
+            onTap: (){
+              FIRFromCaseId(widget.caseId, context);
+            },
+            child: Container(
+              margin: EdgeInsets.only(right: 20),
+                child: Center(child: Text("View FIR",style: TextStyle(fontSize: 18,fontStyle: FontStyle.italic),))
+            ),
+          )
+        ],
       ),
       body: Container(
         width: MediaQuery.of(context).size.width,
@@ -37,15 +62,15 @@ class _UpdatesState extends State<Updates> {
                     itemBuilder: (BuildContext ctx, int index){
                       String x = "";
                       if(index == MyChat.length) return SizedBox(height: 150,);
-
+                      Color y = Colors.black12;
                       if(MyChat[index].Whom == "us" && index != MyChat.length) x = "User";
-                      else if(MyChat[index].Whom == "po" && index != MyChat.length) x = "Cop";
-                      else if(MyChat[index].Whom == "co" && index != MyChat.length) x = "Court";
+                      else if(MyChat[index].Whom == "po" && index != MyChat.length){ x = "Cop"; y = Colors.red[200];}
+                      else if(MyChat[index].Whom == "co" && index != MyChat.length){ x = "Court"; y = Colors.green[200];}
                       return Container(
                         margin: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
                         padding: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
                         decoration: BoxDecoration(
-                          color: Colors.black12,
+                          color: y,
                           borderRadius: BorderRadius.circular(20),
                           border: Border.all(color: Colors.black,width: 2),
                         ),

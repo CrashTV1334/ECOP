@@ -30,14 +30,14 @@ class _MyAllCasesCourtState extends State<MyAllCasesCourt> {
                 onTap: (){
                   bool send = false;
                   if(AllRunningCases[index].Status == "OPEN") send = true;
-                  if(AllRunningCases[index].Status == "OPEN") _showMyDialog(AllRunningCases[index].CaseId,send);
+                  if(AllRunningCases[index].Status == "OPEN") _showMyDialog(AllRunningCases[index].CaseId,send,AllRunningCases[index].CaseId);
                   else{
                     FindUpdateIndex(AllRunningCases[index].CaseId, context).then((value){
                       if(value){
                         AllUpdates(context).then((value){
                           bool send = false;
                           if(AllRunningCases[index].Status == "OPEN") send = true;
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => Updates(send)));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => Updates(send,AllRunningCases[index].CaseId)));
                         });
                       }
                     });
@@ -77,7 +77,7 @@ class _MyAllCasesCourtState extends State<MyAllCasesCourt> {
     );
   }
 
-  Future<void> _showMyDialog(String a, bool send) async {
+  Future<void> _showMyDialog(String a, bool send,String b) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -114,7 +114,7 @@ class _MyAllCasesCourtState extends State<MyAllCasesCourt> {
                   if(value){
                     AllUpdates(context).then((value){
                       Navigator.of(context).pop();
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => Updates(send)));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => Updates(send,b)));
                     });
                   }else Navigator.of(context).pop();
                 });
