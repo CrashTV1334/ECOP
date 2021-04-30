@@ -1,0 +1,17 @@
+String HostUrl = "http://ecopdbms.000webhostapp.com";
+String LoginUserUrl = HostUrl +  "/LoginUser.php";
+String LoginCopUrl = HostUrl + "/LoginCop.php";
+String LoginCourtUrl = HostUrl + "/LoginCourt.php";
+String RegisterUserUrl = HostUrl + "/RegisterUser.php";
+String RegisterCopUrl = HostUrl + "/RegisterCop.php";
+String FIRFromUserIdUrl = HostUrl + "/FIRFromUserId.php";
+String AddFIRIdUrl = HostUrl + "/AddFIRId.php";
+String CaseFromUserIDUrl = HostUrl + "/CaseFromUserId.php";
+String ReturnAllFIRUrl = HostUrl + "/ReturnAllFIR.php";
+String FIRFromCopId = HostUrl + "/FIRFromCopId.php";
+String CaseFromCopIdUrl = HostUrl + "/CaseFromCopId.php";
+String CaseFromCourtIdUrl = HostUrl + "/CaseFromCourtId.php";
+String TakingChargeUrl = HostUrl + "/UpdateFIRFromCopId.php";
+String DeleteFIRUrl = HostUrl + "/DeleteFIR.php";
+String AddNewCaseUrl = HostUrl + "/AddCaseId.php";
+String DeleteCaseUrl = HostUrl + "/DeleteCase.php";
