@@ -11,59 +11,81 @@ class MyAllCasesCourt extends StatefulWidget {
 }
 
 class _MyAllCasesCourtState extends State<MyAllCasesCourt> {
+
+  bool loading = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("My All Cases"),
       ),
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: ListView.builder(
-            itemCount: AllRunningCases.length,
-            itemBuilder: (BuildContext ctx, int index){
-              Color x = Colors.black12;
-              if(AllRunningCases[index].Status == "DELETED") x = Colors.red[200];
-              else if(AllRunningCases[index].Status == "CLOSED") x = Colors.green[200];
-              return InkWell(
-                onTap: (){
-                  bool send = false;
-                  if(AllRunningCases[index].Status == "OPEN") send = true;
-                  if(AllRunningCases[index].Status == "OPEN") _showMyDialog(AllRunningCases[index].CaseId,send,AllRunningCases[index].CaseId);
-                  else{
-                    FindUpdateIndex(AllRunningCases[index].CaseId, context).then((value){
-                      if(value){
-                        AllUpdates(context).then((value){
-                          bool send = false;
-                          if(AllRunningCases[index].Status == "OPEN") send = true;
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => Updates(send,AllRunningCases[index].CaseId)));
+      body: Stack(
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            child: ListView.builder(
+                itemCount: AllRunningCases.length,
+                itemBuilder: (BuildContext ctx, int index){
+                  Color x = Colors.black12;
+                  if(AllRunningCases[index].Status == "DELETED") x = Colors.red[200];
+                  else if(AllRunningCases[index].Status == "CLOSED") x = Colors.green[200];
+                  return InkWell(
+                    onTap: (){
+                      bool send = false;
+                      if(AllRunningCases[index].Status == "OPEN") send = true;
+                      if(AllRunningCases[index].Status == "OPEN") _showMyDialog(AllRunningCases[index].CaseId,send,AllRunningCases[index].CaseId);
+                      else{
+                        setState(() {
+                          loading = true;
+                        });
+                        FindUpdateIndex(AllRunningCases[index].CaseId, context).then((value){
+                          if(value){
+                            AllUpdates(context).then((value){
+                              setState(() {
+                                loading = false;
+                              });
+                              bool send = false;
+                              if(AllRunningCases[index].Status == "OPEN") send = true;
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => Updates(send,AllRunningCases[index].CaseId)));
+                            });
+                          }
+                        });
+                        if(this.mounted)setState(() {
+                          loading = false;
                         });
                       }
-                    });
-                  }
-                },
-                child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
-                  padding: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
-                  decoration: BoxDecoration(
-                    color: x,
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: Colors.black,width: 2),
-                  ),
-                  child: Column(
-                    children: [
-                      Line("Case ID", AllRunningCases[index].CaseId),
-                      Line("FIR ID", AllRunningCases[index].FIRId),
-                      Line("Lawyer", AllRunningCases[index].Lawyer),
-                      Line("Prosecutor Assigned", AllRunningCases[index].ProsecutorAssigned),
-                      Line("Status", AllRunningCases[index].Status),
-                    ],
-                  ),
-                ),
-              );
-            }
-        ),
+                    },
+                    child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+                      padding: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                      decoration: BoxDecoration(
+                        color: x,
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(color: Colors.black,width: 2),
+                      ),
+                      child: Column(
+                        children: [
+                          Line("Case ID", AllRunningCases[index].CaseId),
+                          Line("FIR ID", AllRunningCases[index].FIRId),
+                          Line("Lawyer", AllRunningCases[index].Lawyer),
+                          Line("Prosecutor Assigned", AllRunningCases[index].ProsecutorAssigned),
+                          Line("Status", AllRunningCases[index].Status),
+                        ],
+                      ),
+                    ),
+                  );
+                }
+            ),
+          ),
+          (loading)?Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            color: Colors.black12,
+            child: Center(child: CircularProgressIndicator()),
+          ):Container(),
+        ],
       ),
     );
   }

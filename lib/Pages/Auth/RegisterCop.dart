@@ -27,106 +27,124 @@ class _RegisterCopState extends State<RegisterCop> {
   bool errorPostalCode = false;
   bool errorPassword = false;
 
+  bool loading = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: Width,
-        height: Height,
-        child: Center(
-          child: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(height: 100,),
-                Center(
-                  child: Text("Cop Registration",style: TextStyle(
-                      fontSize: 35,
-                      fontWeight: FontWeight.bold,
-                      fontStyle: FontStyle.italic
-                  ),),
-                ),
-                SizedBox(height: 20,),
-                Form("Cop Id", CopIdcontroller, errorCopId),
-                SizedBox(height: 20,),
-                Form("Name", Namecontroller, errorName),
-                SizedBox(height: 20,),
-                Form("Mobile", Mobilecontroller, errorMobile),
-                SizedBox(height: 20,),
-                Form("Post", Postcontroller, errorPost),
-                SizedBox(height: 20,),
-                Form("StationPosted", StationPostedcontroller, errorStationPosted),
-                SizedBox(height: 20,),
-                Form("City", Citycontroller, errorCity),
-                SizedBox(height: 20,),
-                Form("PostalCode", PostalCodecontroller, errorPostalCode),
-                SizedBox(height: 20,),
-                Form("Create Password", Passwordcontroller, errorPassword),
-                SizedBox(height: 20,),
-                Row(
+      body: Stack(
+        children: [
+          Container(
+            width: Width,
+            height: Height,
+            child: Center(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: Column(
                   mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    TextButton(
-                      onPressed: (){
-                        if(validate()){
-                          RegisterCopAPI(
-                              CopIdcontroller.text,
-                              Namecontroller.text,
-                              Mobilecontroller.text,
-                              Postcontroller.text,
-                              StationPostedcontroller.text,
-                              Citycontroller.text,
-                              PostalCodecontroller.text,
-                              Passwordcontroller.text,
-                              context).then((value) {
-                                if(value){
-                                  MakeToast("Successfully Registered", context);
-                                  Navigator.of(context).pop();
-                                  Navigator.popAndPushNamed(context, LoginRouteCode);
-                                }
-                          });
-                        }else setState(() {});
-                      },
-                      child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.blue,
-                          ),
-                          child: Text("Register",style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20
-                          ),)
-                      ),
+                    SizedBox(height: 100,),
+                    Center(
+                      child: Text("Cop Registration",style: TextStyle(
+                          fontSize: 35,
+                          fontWeight: FontWeight.bold,
+                          fontStyle: FontStyle.italic
+                      ),),
                     ),
-                    TextButton(
-                      onPressed: (){
-                        Navigator.of(context).pop();
-                        Navigator.popAndPushNamed(context, LoginRouteCode);
-                      },
-                      child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.blue,
+                    SizedBox(height: 20,),
+                    Form("Cop Id", CopIdcontroller, errorCopId),
+                    SizedBox(height: 20,),
+                    Form("Name", Namecontroller, errorName),
+                    SizedBox(height: 20,),
+                    Form("Mobile", Mobilecontroller, errorMobile),
+                    SizedBox(height: 20,),
+                    Form("Post", Postcontroller, errorPost),
+                    SizedBox(height: 20,),
+                    Form("StationPosted", StationPostedcontroller, errorStationPosted),
+                    SizedBox(height: 20,),
+                    Form("City", Citycontroller, errorCity),
+                    SizedBox(height: 20,),
+                    Form("PostalCode", PostalCodecontroller, errorPostalCode),
+                    SizedBox(height: 20,),
+                    Form("Create Password", Passwordcontroller, errorPassword),
+                    SizedBox(height: 20,),
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        TextButton(
+                          onPressed: (){
+                            if(validate()){
+                              setState(() {
+                                loading = true;
+                              });
+                              RegisterCopAPI(
+                                  CopIdcontroller.text,
+                                  Namecontroller.text,
+                                  Mobilecontroller.text,
+                                  Postcontroller.text,
+                                  StationPostedcontroller.text,
+                                  Citycontroller.text,
+                                  PostalCodecontroller.text,
+                                  Passwordcontroller.text,
+                                  context).then((value) {
+                                    setState(() {
+                                      loading = false;
+                                    });
+                                    if(value){
+                                      MakeToast("Successfully Registered", context);
+                                      Navigator.of(context).pop();
+                                      Navigator.popAndPushNamed(context, LoginRouteCode);
+                                    }
+                              });
+                            }else setState(() {});
+                          },
+                          child: Container(
+                              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.blue,
+                              ),
+                              child: Text("Register",style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20
+                              ),)
                           ),
-                          child: Text("Login",style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20
-                          ),)
-                      ),
+                        ),
+                        TextButton(
+                          onPressed: (){
+                            Navigator.of(context).pop();
+                            Navigator.popAndPushNamed(context, LoginRouteCode);
+                          },
+                          child: Container(
+                              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.blue,
+                              ),
+                              child: Text("Login",style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20
+                              ),)
+                          ),
+                        ),
+                      ],
                     ),
+                    SizedBox(height: 100,),
                   ],
                 ),
-                SizedBox(height: 100,),
-              ],
+              ),
             ),
           ),
-        ),
+          (loading)?Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            color: Colors.black12,
+            child: Center(child: CircularProgressIndicator()),
+          ):Container(),
+        ],
       ),
     );
   }

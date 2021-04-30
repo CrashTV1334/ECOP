@@ -9,6 +9,9 @@ class CourtHome extends StatefulWidget {
 }
 
 class _CourtHomeState extends State<CourtHome> {
+
+  bool loading = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,46 +24,65 @@ class _CourtHomeState extends State<CourtHome> {
           }, icon: Icon(Icons.logout)),
         ],
       ),
-      body: Container(
-          width: Width,
-          height: Height,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(height: 20,),
-              Line("Court Id", Court.CourtId),
-              Line("City", Court.City),
-              Line("Postal Code", Court.PostalCode),
-              SizedBox(height: 20,),
-              TextButton(
-                onPressed: (){
-                  MyAllCasesCourtAPI().then((value) {
-                    if(value){
-                      Navigator.pushNamed(context, MyAllCasesCourtRouteCode);
-                    }else MakeToast("Error Try Again", context);
-                  });
-                },
-                child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.blue,
+      body: Stack(
+        children: [
+          Container(
+              width: Width,
+              height: Height,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(height: 20,),
+                  Line("Court Id", Court.CourtId),
+                  Line("City", Court.City),
+                  Line("Postal Code", Court.PostalCode),
+                  SizedBox(height: 20,),
+                  TextButton(
+                    onPressed: (){
+                      setState(() {
+                        loading = true;
+                      });
+                      MyAllCasesCourtAPI().then((value) {
+                        if(value){
+                          setState(() {
+                            loading = false;
+                          });
+                          Navigator.pushNamed(context, MyAllCasesCourtRouteCode);
+                        }else MakeToast("Error Try Again", context);
+                        if(this.mounted)setState(() {
+                          loading = false;
+                        });
+                      });
+                    },
+                    child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.blue,
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(Icons.all_inbox,color: Colors.white,),
+                            SizedBox(width: 5,),
+                            Text("My All Cases",style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20
+                            ),),
+                          ],
+                        )
                     ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(Icons.all_inbox,color: Colors.white,),
-                        SizedBox(width: 5,),
-                        Text("My All Cases",style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20
-                        ),),
-                      ],
-                    )
-                ),
-              ),
-            ],
-          )
+                  ),
+                ],
+              )
+          ),
+          (loading)?Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            color: Colors.black12,
+            child: Center(child: CircularProgressIndicator()),
+          ):Container(),
+        ],
       ),
     );
   }

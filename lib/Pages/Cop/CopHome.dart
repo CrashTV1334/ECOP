@@ -11,6 +11,9 @@ class CopHome extends StatefulWidget {
 }
 
 class _CopHomeState extends State<CopHome> {
+
+  bool loading = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,53 +26,33 @@ class _CopHomeState extends State<CopHome> {
           }, icon: Icon(Icons.logout)),
         ],
       ),
-      body: Container(
-          width: Width,
-          height: Height,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(height: 20,),
-              Line("Cop Id", Cop.CopId),
-              Line("Name", Cop.Name),
-              Line("Mobile", Cop.Mobile),
-              Line("Post", Cop.Post),
-              Line("Station Posted", Cop.StationPosted),
-              Line("City", Cop.City),
-              Line("Postal Code", Cop.PostalCode),
-              SizedBox(height: 20,),
-              TextButton(
-                onPressed: (){
-                  AllFIRCopAPI().then((value){
-                    Navigator.pushNamed(context, AllAvailableFIRRouteCode);
-                  });
-                },
-                child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.blue,
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(Icons.all_inbox,color: Colors.white,),
-                        SizedBox(width: 5,),
-                        Text("ALL FIR",style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20
-                        ),),
-                      ],
-                    )
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+      body: Stack(
+        children: [
+          Container(
+              width: Width,
+              height: Height,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  SizedBox(height: 20,),
+                  Line("Cop Id", Cop.CopId),
+                  Line("Name", Cop.Name),
+                  Line("Mobile", Cop.Mobile),
+                  Line("Post", Cop.Post),
+                  Line("Station Posted", Cop.StationPosted),
+                  Line("City", Cop.City),
+                  Line("Postal Code", Cop.PostalCode),
+                  SizedBox(height: 20,),
                   TextButton(
                     onPressed: (){
-                      MyFIRCopAPI().then((value){
-                        Navigator.pushNamed(context, MyAllFIRCopRouteCode);
+                      setState(() {
+                        loading = true;
+                      });
+                      AllFIRCopAPI().then((value){
+                        setState(() {
+                          loading = false;
+                        });
+                        Navigator.pushNamed(context, AllAvailableFIRRouteCode);
                       });
                     },
                     child: Container(
@@ -78,36 +61,84 @@ class _CopHomeState extends State<CopHome> {
                           borderRadius: BorderRadius.circular(10),
                           color: Colors.blue,
                         ),
-                        child: Text("My FIR",style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20
-                        ),)
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(Icons.all_inbox,color: Colors.white,),
+                            SizedBox(width: 5,),
+                            Text("ALL FIR",style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20
+                            ),),
+                          ],
+                        )
                     ),
                   ),
-                  TextButton(
-                    onPressed: (){
-                      MyCasesCopAPI().then((value){
-                        if(value){
-                          Navigator.pushNamed(context, MyAllCasesCopRouteCode);
-                        }else MakeToast("Error Try Again", context);
-                      });
-                    },
-                    child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.blue,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      TextButton(
+                        onPressed: (){
+                          setState(() {
+                            loading = true;
+                          });
+                          MyFIRCopAPI().then((value){
+                            setState(() {
+                              loading = false;
+                            });
+                            Navigator.pushNamed(context, MyAllFIRCopRouteCode);
+                          });
+                        },
+                        child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.blue,
+                            ),
+                            child: Text("My FIR",style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20
+                            ),)
                         ),
-                        child: Text("My Cases",style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20
-                        ),)
-                    ),
+                      ),
+                      TextButton(
+                        onPressed: (){
+                          setState(() {
+                            loading = true;
+                          });
+                          MyCasesCopAPI().then((value){
+                            setState(() {
+                              loading = false;
+                            });
+                            if(value){
+                              Navigator.pushNamed(context, MyAllCasesCopRouteCode);
+                            }else MakeToast("Error Try Again", context);
+                          });
+                        },
+                        child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.blue,
+                            ),
+                            child: Text("My Cases",style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20
+                            ),)
+                        ),
+                      ),
+                    ],
                   ),
                 ],
-              ),
-            ],
-          )
+              )
+          ),
+          (loading)?Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            color: Colors.black12,
+            child: Center(child: CircularProgressIndicator()),
+          ):Container(),
+        ],
       ),
     );
   }

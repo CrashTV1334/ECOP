@@ -17,6 +17,8 @@ class _LoginState extends State<Login> {
   bool errorUsername = false;
   bool errorPassword = false;
 
+  bool loading = false;
+
   @override
   void initState() {
     UsernameController.text = "";
@@ -27,77 +29,93 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: Width,
-        height: Height,
-        child: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Center(
-                child: Text("Login",style: TextStyle(
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold,
-                  fontStyle: FontStyle.italic
-                ),),
-              ),
-              SizedBox(height: 20,),
-              Form("AdharCard Number/ID", UsernameController,errorUsername),
-              SizedBox(height: 20,),
-              Form("Password", PasswordController,errorPassword),
-              SizedBox(height: 20,),
-              Row(
+      body: Stack(
+        children: [
+          Container(
+            width: Width,
+            height: Height,
+            child: Center(
+              child: Column(
                 mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  TextButton(
-                      onPressed: (){
-                        if(Validator(context)){
-                          LoginAPI(UsernameController.text, PasswordController.text, context).then((value) {
-                            print(value);
-                            if(value == "po") Navigator.popAndPushNamed(context, CopHomeRouteCode);
-                            else if(value == "co") Navigator.popAndPushNamed(context, CourtHomeRouteCode);
-                            else if(value == "us") Navigator.popAndPushNamed(context, UserHomeRouteCode);
-                            else MakeToast("Wrong Credentials", context);
-                          });
-                        }
-                        else setState(() {});
-                      },
-                      child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.blue,
-                          ),
-                          child: Text("Login",style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20
-                          ),)
-                      ),
+                  Center(
+                    child: Text("Login",style: TextStyle(
+                      fontSize: 40,
+                      fontWeight: FontWeight.bold,
+                      fontStyle: FontStyle.italic
+                    ),),
                   ),
-                  TextButton(
-                    onPressed: (){
-                      Navigator.popAndPushNamed(context, RegisterChoiceRouteCode);
-                    },
-                    child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.blue,
+                  SizedBox(height: 20,),
+                  Form("AdharCard Number/ID", UsernameController,errorUsername),
+                  SizedBox(height: 20,),
+                  Form("Password", PasswordController,errorPassword),
+                  SizedBox(height: 20,),
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      TextButton(
+                          onPressed: (){
+                            if(Validator(context)){
+                              setState(() {
+                                loading = true;
+                              });
+                              LoginAPI(UsernameController.text, PasswordController.text, context).then((value) {
+                                setState(() {
+                                  loading = false;
+                                });
+                                print(value);
+                                if(value == "po") Navigator.popAndPushNamed(context, CopHomeRouteCode);
+                                else if(value == "co") Navigator.popAndPushNamed(context, CourtHomeRouteCode);
+                                else if(value == "us") Navigator.popAndPushNamed(context, UserHomeRouteCode);
+                                else MakeToast("Wrong Credentials", context);
+                              });
+                            }
+                            else setState(() {});
+                          },
+                          child: Container(
+                              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.blue,
+                              ),
+                              child: Text("Login",style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20
+                              ),)
+                          ),
+                      ),
+                      TextButton(
+                        onPressed: (){
+                          Navigator.popAndPushNamed(context, RegisterChoiceRouteCode);
+                        },
+                        child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.blue,
+                            ),
+                            child: Text("Register",style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20
+                            ),)
                         ),
-                        child: Text("Register",style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20
-                        ),)
-                    ),
+                      ),
+                    ],
                   ),
                 ],
               ),
-            ],
+            ),
           ),
-        ),
+          (loading)?Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            color: Colors.black12,
+            child: Center(child: CircularProgressIndicator()),
+          ):Container(),
+        ],
       ),
     );
   }
