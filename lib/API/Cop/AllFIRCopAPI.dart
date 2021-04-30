@@ -6,7 +6,7 @@ import 'package:ecop/Utils/Variables.dart';
 import 'package:http/http.dart' as http;
 
 Future<bool> AllFIRCopAPI() async {
-  print("ger");
+
   var response = await http.post(Uri.parse(ReturnAllFIRUrl));
   Map<dynamic, dynamic> res = await jsonDecode(response.body.toString());
   AllRunningFIR.clear();

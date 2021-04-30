@@ -7,8 +7,6 @@ import 'package:http/http.dart' as http;
 
 Future<bool> FIRFromCaseId(String id, BuildContext context) async {
 
-  print(id);
-
   Map data = <String, String>{
     "CaseId": id
   };

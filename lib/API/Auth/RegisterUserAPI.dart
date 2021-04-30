@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 Future<bool> RegisterUserAPI(String adhar, String name, String mobile, String password, BuildContext context) async {
-  print("here");
+
   Map data = <String, String>{
     "Adhar": adhar,
     "Password" : password,

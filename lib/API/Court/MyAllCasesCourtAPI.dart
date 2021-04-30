@@ -6,7 +6,6 @@ import 'package:ecop/Utils/Variables.dart';
 import 'package:http/http.dart' as http;
 
 Future<bool> MyAllCasesCourtAPI() async {
-  print("ger");
   Map data = <String, String>{
     "CourtId" : Court.CourtId,
   };

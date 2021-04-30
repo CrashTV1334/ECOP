@@ -123,7 +123,13 @@ class _MyAllCasesCourtState extends State<MyAllCasesCourt> {
             TextButton(
               child: Text('Delete'),
               onPressed: () {
+                setState(() {
+                  loading = true;
+                });
                 DeleteCaseAPI(a,context).then((value) {
+                  setState(() {
+                    loading = false;
+                  });
                   Navigator.of(context).pop();
                   if(value) Navigator.of(context).pop();
                 });
@@ -132,13 +138,24 @@ class _MyAllCasesCourtState extends State<MyAllCasesCourt> {
             TextButton(
               child: Text('Update'),
               onPressed: () {
+                setState(() {
+                  loading = true;
+                });
                 FindUpdateIndex(a, context).then((value){
                   if(value){
                     AllUpdates(context).then((value){
+                      setState(() {
+                        loading = false;
+                      });
                       Navigator.of(context).pop();
                       Navigator.push(context, MaterialPageRoute(builder: (context) => Updates(send,b)));
                     });
-                  }else Navigator.of(context).pop();
+                  }else{
+                    setState(() {
+                      loading = false;
+                    });
+                    Navigator.of(context).pop();
+                  }
                 });
               },
             ),

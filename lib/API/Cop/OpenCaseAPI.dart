@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 
 Future<bool> OpenCaseAPI(String firid, String copid, String courtid, String userid,
     String lawyer, String pa,BuildContext context) async {
-  print("here");
+
   Map data = <String, String>{
     "FirId": firid,
     "CopId": copid,
