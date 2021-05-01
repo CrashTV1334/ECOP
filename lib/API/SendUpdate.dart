@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:ecop/API/Secrets.dart';
 import 'package:ecop/Utils/Variables.dart';
 import 'package:flutter/cupertino.dart';
@@ -14,5 +16,8 @@ Future<bool> SendUpdate(String update, BuildContext context) async{
     "Whom": auth
   };
   var response = await http.post(Uri.parse(AddUpdateUrl),body: data);
-  print(response.body);
+  Map<dynamic, dynamic> res = await jsonDecode(response.body.toString());
+  if(res["error"] == "Success") return true;
+  MakeToast(res["error"], context);
+  return false;
 }

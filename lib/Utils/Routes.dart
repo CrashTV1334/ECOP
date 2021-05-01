@@ -14,6 +14,7 @@ import 'package:ecop/Pages/User/AllCases.dart';
 import 'package:ecop/Pages/User/AllFIR.dart';
 import 'package:ecop/Pages/User/NewFIR.dart';
 import 'package:ecop/Pages/User/UserHome.dart';
+import 'package:ecop/Pages/ViewFIR.dart';
 import 'package:ecop/Utils/RoutesCode.dart';
 import 'package:flutter/material.dart';
 
@@ -33,4 +34,5 @@ var routes = <String,WidgetBuilder>{
   MyAllFIRCopRouteCode : (BuildContext context) => MyFIRCop(),
   MyAllCasesCopRouteCode : (BuildContext context) => MyCaseCop(),
   MyAllCasesCourtRouteCode : (BuildContext context) => MyAllCasesCourt(),
+  ViewFIRRouteCode : (BuildContext context) => ViewFIR(),
 };

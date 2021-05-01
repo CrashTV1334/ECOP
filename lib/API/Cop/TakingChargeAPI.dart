@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
 Future<bool> TakingCharge(String firid, String copid,BuildContext context) async {
-  print(firid +"  "+ copid);
+
   Map data = <String, String>{
     "FIRId": firid,
     "CopId": copid

@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
 Future<String> LoginAPI(String username, String password, BuildContext context) async {
-  print("here");
+
   String authx = username.substring(0, 2);
   if(authx.toLowerCase() == "po"){
     Map data = <String, String>{

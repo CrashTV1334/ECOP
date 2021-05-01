@@ -21,54 +21,77 @@ class _OpenCaseState extends State<OpenCase> {
   bool errorLawyer = false;
   bool errorPA = false;
 
+  bool loading = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Open case"),
       ),
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Column(
-            children: [
-              SizedBox(height: 20,),
-              Form("Court Id", CourtidController, errorCourtid),
-              SizedBox(height: 20,),
-              Form("Lawyer", LawyerController, errorLawyer),
-              SizedBox(height: 20,),
-              Form("Prosecutor Assigned", PAController, errorPA),
-              SizedBox(height: 20,),
-              TextButton(
-                onPressed: (){
-                  if(Validate()){
-                    OpenCaseAPI(widget.firid, Cop.CopId, CourtidController.text, widget.userid,
-                        LawyerController.text, PAController.text, context).then((value) {
-                          if(value){
-                            Navigator.of(context).pop();
-                            Navigator.of(context).pop();
-                          }
-                    });
-                  }else setState(() {});
-                },
-                child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.blue,
+      body: Stack(
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(
+                children: [
+                  SizedBox(height: 20,),
+                  Form("Court Id", CourtidController, errorCourtid),
+                  SizedBox(height: 20,),
+                  Form("Lawyer", LawyerController, errorLawyer),
+                  SizedBox(height: 20,),
+                  Form("Prosecutor Assigned", PAController, errorPA),
+                  SizedBox(height: 20,),
+                  TextButton(
+                    onPressed: (){
+                      if(Validate()){
+                        setState(() {
+                          loading = true;
+                        });
+                        OpenCaseAPI(widget.firid, Cop.CopId, CourtidController.text, widget.userid,
+                            LawyerController.text, PAController.text, context).then((value) {
+                              if(value){
+                                setState(() {
+                                  loading = false;
+                                });
+                                Navigator.of(context).pop();
+                                Navigator.of(context).pop();
+                              }
+                              if(this.mounted)setState(() {
+                                loading = false;
+                              });
+                        });
+                      }else setState(() {
+                        loading = false;
+                      });
+                    },
+                    child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.blue,
+                        ),
+                        child: Text("Open Case",style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20
+                        ),)
                     ),
-                    child: Text("Open Case",style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20
-                    ),)
-                ),
+                  ),
+                  SizedBox(height: 20,),
+                ],
               ),
-              SizedBox(height: 20,),
-            ],
+            ),
           ),
-        ),
+          (loading)?Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            color: Colors.black12,
+            child: Center(child: CircularProgressIndicator()),
+          ):Container(),
+        ],
       ),
     );
   }

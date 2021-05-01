@@ -38,37 +38,47 @@ class _RegisterChoiceState extends State<RegisterChoice> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      TextButton(
-                        onPressed: (){
-                          Navigator.pushNamed(context, RegisterUserRouteCode);
-                        },
-                        child: Container(
-                            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.blue,
+                      Column(
+                        children: [
+                          Image.asset("Asset/User.png",width: 80,height: 80,),
+                          TextButton(
+                            onPressed: (){
+                              Navigator.pushNamed(context, RegisterUserRouteCode);
+                            },
+                            child: Container(
+                                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.blue,
+                                ),
+                                child: Text("User",style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20
+                                ),)
                             ),
-                            child: Text("User",style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20
-                            ),)
-                        ),
+                          ),
+                        ],
                       ),
-                      TextButton(
-                        onPressed: (){
-                          Navigator.pushNamed(context, RegisterCopRouteCode);
-                        },
-                        child: Container(
-                            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.blue,
+                      Column(
+                        children: [
+                          Image.asset("Asset/cop.png",width: 80, height: 80,),
+                          TextButton(
+                            onPressed: (){
+                              Navigator.pushNamed(context, RegisterCopRouteCode);
+                            },
+                            child: Container(
+                                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.blue,
+                                ),
+                                child: Text("Cop",style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20
+                                ),)
                             ),
-                            child: Text("Cop",style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20
-                            ),)
-                        ),
+                          ),
+                        ],
                       ),
                     ],
                   ),

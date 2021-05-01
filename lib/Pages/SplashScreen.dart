@@ -37,7 +37,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Height = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Container(
-        color: BackgroundColor,
+        color: Colors.grey,
         width: Width,
         height: Height,
         child: Center(
@@ -45,13 +45,15 @@ class _SplashScreenState extends State<SplashScreen> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              Image.asset("Asset/splash.png"),
+              SizedBox(height: 20,),
               Text("Ecop",style: TextStyle(
-                color: Colors.grey,
+                color: Colors.black,
                 fontSize: 40,
                 decoration: TextDecoration.underline
               ),),
               Text("Online Portal of Complaints",style: TextStyle(
-                  color: Colors.grey,
+                  color: Colors.black,
                   fontSize: 20
               ),)
             ],

@@ -8,8 +8,7 @@ import 'package:http/http.dart' as http;
 Future<bool> RegisterCopAPI(String id, String name, String mobile, String post,
     String stationposted, String city, String postalcode,String password,
     BuildContext context) async {
-  print("here");
-  print(id);
+
   Map data = <String, String>{
     "CopId": id,
     "Password" : password,

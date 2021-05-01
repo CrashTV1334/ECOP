@@ -20,88 +20,106 @@ class _RegisterUserState extends State<RegisterUser> {
   bool errorMobile = false;
   bool errorPassword = false;
 
+  bool loading = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: Width,
-        height: Height,
-        child: Center(
-          child: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Center(
-                  child: Text("User Registration",style: TextStyle(
-                      fontSize: 35,
-                      fontWeight: FontWeight.bold,
-                      fontStyle: FontStyle.italic
-                  ),),
-                ),
-                SizedBox(height: 20,),
-                Form("AdharCard Number", Adharcontroller, errorAdhar),
-                SizedBox(height: 20,),
-                Form("Name", Namecontroller, errorName),
-                SizedBox(height: 20,),
-                Form("Mobile", Mobilecontroller, errorMobile),
-                SizedBox(height: 20,),
-                Form("Create Password", Passwordcontroller, errorPassword),
-                SizedBox(height: 20,),
-                Row(
+      body: Stack(
+        children: [
+          Container(
+            width: Width,
+            height: Height,
+            child: Center(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: Column(
                   mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    TextButton(
-                      onPressed: (){
-                        if(validate()){
-                          RegisterUserAPI(Adharcontroller.text, Namecontroller.text, Mobilecontroller.text, Passwordcontroller.text, context).then((value) {
-                            if(value){
-                              MakeToast("Successfully Registered", context);
-                              Navigator.of(context).pop();
-                              Navigator.popAndPushNamed(context, LoginRouteCode);
-                            }
-                          });
-                        }
-                        else setState(() {});
-                      },
-                      child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.blue,
-                          ),
-                          child: Text("Register",style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20
-                          ),)
-                      ),
+                    Center(
+                      child: Text("User Registration",style: TextStyle(
+                          fontSize: 35,
+                          fontWeight: FontWeight.bold,
+                          fontStyle: FontStyle.italic
+                      ),),
                     ),
-                    TextButton(
-                      onPressed: (){
-                        Navigator.of(context).pop();
-                        Navigator.popAndPushNamed(context, LoginRouteCode);
-                      },
-                      child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.blue,
+                    SizedBox(height: 20,),
+                    Form("AdharCard Number", Adharcontroller, errorAdhar),
+                    SizedBox(height: 20,),
+                    Form("Name", Namecontroller, errorName),
+                    SizedBox(height: 20,),
+                    Form("Mobile", Mobilecontroller, errorMobile),
+                    SizedBox(height: 20,),
+                    Form("Create Password", Passwordcontroller, errorPassword),
+                    SizedBox(height: 20,),
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        TextButton(
+                          onPressed: (){
+                            if(validate()){
+                              setState(() {
+                                loading = true;
+                              });
+                              RegisterUserAPI(Adharcontroller.text, Namecontroller.text, Mobilecontroller.text, Passwordcontroller.text, context).then((value) {
+                                setState(() {
+                                  loading = false;
+                                });
+                                if(value){
+                                  MakeToast("Successfully Registered", context);
+                                  Navigator.of(context).pop();
+                                  Navigator.popAndPushNamed(context, LoginRouteCode);
+                                }
+                              });
+                            }
+                            else setState(() {});
+                          },
+                          child: Container(
+                              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.blue,
+                              ),
+                              child: Text("Register",style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20
+                              ),)
                           ),
-                          child: Text("Login",style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20
-                          ),)
-                      ),
+                        ),
+                        TextButton(
+                          onPressed: (){
+                            Navigator.of(context).pop();
+                            Navigator.popAndPushNamed(context, LoginRouteCode);
+                          },
+                          child: Container(
+                              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.blue,
+                              ),
+                              child: Text("Login",style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20
+                              ),)
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
+              ),
             ),
           ),
-        ),
+          (loading)?Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            color: Colors.black12,
+            child: Center(child: CircularProgressIndicator()),
+          ):Container(),
+        ],
       ),
     );
   }
