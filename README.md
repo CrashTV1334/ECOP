@@ -1,16 +1,32 @@
 # ecop
 
-A new Flutter application.
+A pocket friendly mobile application for lodging and managing FIR online. The main purpose of the system is to facilitate a victim to lodge FIR online from anywhere and also be able to track the progress about it. 
 
-## Getting Started
+## Key Features :~
 
-This project is a starting point for a Flutter application.
+#### 1. Victim
 
-A few resources to get you started if this is your first Flutter project:
+- Can lodge the FIR online from any place.
+- Can track the status and progress of the his case online.
+- Can add extra information whenever necessary.
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+#### 2. Cop
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Can keep track of all the FIRs lodged.
+- Can update the progress.
+
+#### 3. Court
+
+- Can add any progress in court.
+- Can delete the case after completion of the case.
+
+## Tech Stack :~
+
+- <strong>Frontend: </strong> Flutter framework with dart lanuage.
+- <strong>Backend: </strong> PHP with MySql query.
+
+## Contributors :~
+1. Utkarsh Gangwar  (IIT2019023)
+2. Utkarsh Garg     (IIT2019026)
+3. Soham Mehta      (IIT2019033)
+4. Tushar Gupta     (IIT2019043)
