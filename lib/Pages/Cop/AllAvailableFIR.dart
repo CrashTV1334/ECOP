@@ -56,6 +56,7 @@ class _AllAvailableFIRState extends State<AllAvailableFIR> {
                 shuffle = !shuffle;
               });
             },
+
             child: Container(
               margin: EdgeInsets.symmetric(horizontal: 20),
               child: Center(child: Text(shuffleList[index])),
