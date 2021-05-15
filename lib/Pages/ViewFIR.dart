@@ -16,24 +16,22 @@ class _ViewFIRState extends State<ViewFIR> {
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        child: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              SizedBox(height: 20,),
-              Line("FIR ID", thisFIR.FIRId),
-              Line("Complaint Holder Name", thisFIR.ComplaintHolderName),
-              Line("Victim", thisFIR.Victim),
-              Line("Place", thisFIR.Place),
-              Line("Date", thisFIR.Date),
-              Line("Description", thisFIR.Description),
-              Line("Contact Info", thisFIR.ContactInfo),
-              Line("Cop", thisFIR.CopId),
-              Line("Status", thisFIR.Status),
-              SizedBox(height: 20,),
-            ],
-          ),
+        margin: EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            SizedBox(height: 20,),
+            Line("FIR ID", thisFIR.FIRId),
+            Line("Complaint Holder Name", thisFIR.ComplaintHolderName),
+            Line("Victim", thisFIR.Victim),
+            Line("Place", thisFIR.Place),
+            Line("Date", thisFIR.Date),
+            Line("Description", thisFIR.Description),
+            Line("Contact Info", thisFIR.ContactInfo),
+            Line("Cop", thisFIR.CopId),
+            Line("Status", thisFIR.Status),
+            SizedBox(height: 20,),
+          ],
         ),
       ),
     );

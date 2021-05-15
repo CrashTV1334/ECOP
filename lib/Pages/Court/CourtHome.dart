@@ -1,5 +1,6 @@
 import 'package:ecop/API/Court/MyAllCasesCourtAPI.dart';
 import 'package:ecop/Utils/RoutesCode.dart';
+import 'package:ecop/Utils/SharedPreferences/SharedPreferences.dart';
 import 'package:ecop/Utils/Variables.dart';
 import 'package:flutter/material.dart';
 
@@ -20,6 +21,8 @@ class _CourtHomeState extends State<CourtHome> {
         title: Center(child: Text("Court")),
         actions: [
           IconButton(onPressed: (){
+            SetStringFromSharedPref("Username", "@#");
+            SetStringFromSharedPref("Password", "@#");
             Navigator.popAndPushNamed(context, LoginRouteCode);
           }, icon: Icon(Icons.logout)),
         ],

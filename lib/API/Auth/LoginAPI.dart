@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:ecop/API/Secrets.dart';
+import 'package:ecop/Utils/SharedPreferences/SharedPreferences.dart';
 import 'package:ecop/Utils/Variables.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
@@ -15,6 +16,8 @@ Future<String> LoginAPI(String username, String password, BuildContext context) 
     var resp = await http.post(Uri.parse(LoginCopUrl),body: data);
     Map<dynamic, dynamic> res = await jsonDecode(resp.body.toString());
     if(res["error"] == "NULL"){
+      SetStringFromSharedPref("Username", username);
+      SetStringFromSharedPref("Password", password);
       auth = "po";
       Cop.thisdata(
         res["data"]["CopId"],
@@ -38,6 +41,8 @@ Future<String> LoginAPI(String username, String password, BuildContext context) 
     var resp = await http.post(Uri.parse(LoginCourtUrl),body: data);
     Map<dynamic, dynamic> res = await jsonDecode(resp.body.toString());
     if(res["error"] == "NULL"){
+      SetStringFromSharedPref("Username", username);
+      SetStringFromSharedPref("Password", password);
       auth = "co";
       Court.thisdata(
           res["data"]["CourtId"],
@@ -57,6 +62,8 @@ Future<String> LoginAPI(String username, String password, BuildContext context) 
     var resp = await http.post(Uri.parse(LoginUserUrl),body: data);
     Map<dynamic, dynamic> res = await jsonDecode(resp.body.toString());
     if(res["error"] == "NULL"){
+      SetStringFromSharedPref("Username", username);
+      SetStringFromSharedPref("Password", password);
       auth = "us";
       User.thisdata(
           res["data"]["Adhar"],
@@ -83,6 +90,8 @@ Future<String> LoginAPI2(String username, String password) async {
     var resp = await http.post(Uri.parse(LoginCopUrl),body: data);
     Map<dynamic, dynamic> res = await jsonDecode(resp.body.toString());
     if(res["error"] == "NULL"){
+      SetStringFromSharedPref("Username", username);
+      SetStringFromSharedPref("Password", password);
       auth = "po";
       Cop.thisdata(
         res["data"]["CopId"],
@@ -105,6 +114,8 @@ Future<String> LoginAPI2(String username, String password) async {
     var resp = await http.post(Uri.parse(LoginCourtUrl),body: data);
     Map<dynamic, dynamic> res = await jsonDecode(resp.body.toString());
     if(res["error"] == "NULL"){
+      SetStringFromSharedPref("Username", username);
+      SetStringFromSharedPref("Password", password);
       auth = "co";
       Court.thisdata(
         res["data"]["CourtId"],
@@ -124,6 +135,8 @@ Future<String> LoginAPI2(String username, String password) async {
     var resp = await http.post(Uri.parse(LoginUserUrl),body: data);
     Map<dynamic, dynamic> res = await jsonDecode(resp.body.toString());
     if(res["error"] == "NULL"){
+      SetStringFromSharedPref("Username", username);
+      SetStringFromSharedPref("Password", password);
       auth = "us";
       User.thisdata(
         res["data"]["Adhar"],

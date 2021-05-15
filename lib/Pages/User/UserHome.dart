@@ -1,6 +1,7 @@
 import 'package:ecop/API/User/AllCasesUserIdAPI.dart';
 import 'package:ecop/API/User/FIRFromUserAPI.dart';
 import 'package:ecop/Utils/RoutesCode.dart';
+import 'package:ecop/Utils/SharedPreferences/SharedPreferences.dart';
 import 'package:ecop/Utils/Variables.dart';
 import 'package:flutter/material.dart';
 
@@ -21,6 +22,8 @@ class _UserHomeState extends State<UserHome> {
         title: Center(child: Text("User")),
         actions: [
           IconButton(onPressed: (){
+            SetStringFromSharedPref("Username", "@#");
+            SetStringFromSharedPref("Password", "@#");
             Navigator.popAndPushNamed(context, LoginRouteCode);
           }, icon: Icon(Icons.logout)),
         ],

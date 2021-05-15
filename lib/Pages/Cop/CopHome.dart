@@ -2,6 +2,7 @@ import 'package:ecop/API/Cop/AllFIRCopAPI.dart';
 import 'package:ecop/API/Cop/MyCasesCopAPI.dart';
 import 'package:ecop/API/Cop/MyFIRCopAPI.dart';
 import 'package:ecop/Utils/RoutesCode.dart';
+import 'package:ecop/Utils/SharedPreferences/SharedPreferences.dart';
 import 'package:ecop/Utils/Variables.dart';
 import 'package:flutter/material.dart';
 
@@ -22,6 +23,8 @@ class _CopHomeState extends State<CopHome> {
         title: Center(child: Text("COP")),
         actions: [
           IconButton(onPressed: (){
+            SetStringFromSharedPref("Username", "@#");
+            SetStringFromSharedPref("Password", "@#");
             Navigator.popAndPushNamed(context, LoginRouteCode);
           }, icon: Icon(Icons.logout)),
         ],

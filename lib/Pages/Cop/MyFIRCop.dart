@@ -28,7 +28,7 @@ class _MyFIRCopState extends State<MyFIRCop> {
                 itemBuilder: (BuildContext ctx, int index){
                   Color x = Colors.black12;
                   if(AllRunningFIR[index].Status == "DELETED") x = Colors.red[200];
-                  else if(AllRunningFIR[index].Status == "CASE OPEN") x = Colors.green[200];
+                  else if(AllRunningFIR[index].Status == "CASE FILED") x = Colors.green[200];
 
                   return InkWell(
                     onTap: (){

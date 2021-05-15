@@ -15,6 +15,7 @@ String TakingChargeUrl = HostUrl + "/UpdateFIRFromCopId.php";
 String DeleteFIRUrl = HostUrl + "/DeleteFIR.php";
 String AddNewCaseUrl = HostUrl + "/AddCaseId.php";
 String DeleteCaseUrl = HostUrl + "/DeleteCase.php";
+String CloseCaseUrl = HostUrl + "/CloseCase.php";
 String UpdateIndexListFromCaseIdUrl = HostUrl + "/UpdateIndexListFromCaseId.php";
 String UpdatesFromUpdateIdUrl = HostUrl + "/UpdatesFromUpdateId.php";
 String AddUpdateUrl = HostUrl + "/AddUpdate.php";

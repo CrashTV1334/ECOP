@@ -22,7 +22,7 @@ class _AllFIRState extends State<AllFIR> {
 
               Color x = Colors.black12;
               if(AllRunningFIR[index].Status == "DELETED") x = Colors.red[200];
-              else if(AllRunningFIR[index].Status == "CASE OPEN") x = Colors.green[200];
+              else if(AllRunningFIR[index].Status == "CASE FILED") x = Colors.green[200];
 
               return Container(
                 margin: EdgeInsets.symmetric(horizontal: 20,vertical: 10),

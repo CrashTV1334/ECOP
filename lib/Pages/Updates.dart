@@ -46,10 +46,18 @@ class _UpdatesState extends State<Updates> {
         title: Text("Updates"),
         actions: [
           InkWell(
-            onTap: (){
-              FIRFromCaseId(widget.caseId, context).then((value) {
+            onTap: () async {
+              setState(() {
+                loading = true;
+              });
+              await FIRFromCaseId(widget.caseId, context).then((value) {
                 if(value) Navigator.pushNamed(context, ViewFIRRouteCode);
               });
+              if(this.mounted){
+                setState(() {
+                  loading = false;
+                });
+              }
             },
             child: Container(
               margin: EdgeInsets.only(right: 20),

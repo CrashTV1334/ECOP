@@ -16,8 +16,7 @@ class _AllAvailableFIRState extends State<AllAvailableFIR> {
     "Assigned",
     "Unassigned",
     "DELETED",
-    "CASE OPEN",
-    "CASE CLOSED",
+    "CASE FILED",
     "ALL"
   ];
   List<FIRModel> SortedList = [];
@@ -46,13 +45,9 @@ class _AllAvailableFIRState extends State<AllAvailableFIR> {
                 for (FIRModel v in AllRunningFIR) {
                   if (v.Status == "DELETED") SortedList.add(v);
                 }
-              } else if (shuffleList[index] == "CASE OPEN") {
+              } else if (shuffleList[index] == "CASE FILED") {
                 for (FIRModel v in AllRunningFIR) {
-                  if (v.Status == "CASE OPEN") SortedList.add(v);
-                }
-              } else if (shuffleList[index] == "CASE CLOSED") {
-                for (FIRModel v in AllRunningFIR) {
-                  if (v.Status == "CASE CLOSED") SortedList.add(v);
+                  if (v.Status == "CASE FILED") SortedList.add(v);
                 }
               } else if (shuffleList[index] == "ALL") {
                 SortedList.addAll(AllRunningFIR);
@@ -107,7 +102,7 @@ class _AllAvailableFIRState extends State<AllAvailableFIR> {
                   Color x = Colors.black12;
                   if (SortedList[index].Status == "DELETED")
                     x = Colors.red[200];
-                  else if (SortedList[index].Status == "CASE OPEN")
+                  else if (SortedList[index].Status == "CASE FILED")
                     x = Colors.green[200];
                   return InkWell(
                     onTap: () {
