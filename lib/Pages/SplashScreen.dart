@@ -21,6 +21,9 @@ class _SplashScreenState extends State<SplashScreen> {
             if(password != "@#"){
               String myAuth = await LoginAPI2(username, password);
               print(myAuth);
+              if(myAuth == "po") Navigator.popAndPushNamed(context, CopHomeRouteCode);
+              else if(myAuth == "co") Navigator.popAndPushNamed(context, CourtHomeRouteCode);
+              else if(myAuth == "us") Navigator.popAndPushNamed(context, UserHomeRouteCode);
             }
             else Navigator.popAndPushNamed(context, LoginRouteCode);
           });
