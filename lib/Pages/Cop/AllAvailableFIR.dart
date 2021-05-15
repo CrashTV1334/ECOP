@@ -1,4 +1,5 @@
 import 'package:ecop/API/Cop/TakingChargeAPI.dart';
+import 'package:ecop/Models/FIRModel.dart';
 import 'package:ecop/Utils/Variables.dart';
 import 'package:flutter/material.dart';
 
@@ -8,14 +9,92 @@ class AllAvailableFIR extends StatefulWidget {
 }
 
 class _AllAvailableFIRState extends State<AllAvailableFIR> {
-
   bool loading = false;
+  bool shuffle = false;
+
+  List<String> shuffleList = [
+    "Assigned",
+    "Unassigned",
+    "DELETED",
+    "CASE OPEN",
+    "CASE CLOSED",
+    "ALL"
+  ];
+  List<FIRModel> SortedList = [];
+
+  Widget MyAppBar() {
+    if (!shuffle) return Text("All FIR");
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: 60,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: shuffleList.length,
+        itemBuilder: (BuildContext context, int index) {
+          return GestureDetector(
+            onTap: () {
+              SortedList.clear();
+              if (shuffleList[index] == "Assigned") {
+                for (FIRModel v in AllRunningFIR) {
+                  if (v.CopId != "xxx") SortedList.add(v);
+                }
+              } else if (shuffleList[index] == "Unassigned") {
+                for (FIRModel v in AllRunningFIR) {
+                  if (v.CopId == "xxx") SortedList.add(v);
+                }
+              } else if (shuffleList[index] == "DELETED") {
+                for (FIRModel v in AllRunningFIR) {
+                  if (v.Status == "DELETED") SortedList.add(v);
+                }
+              } else if (shuffleList[index] == "CASE OPEN") {
+                for (FIRModel v in AllRunningFIR) {
+                  if (v.Status == "CASE OPEN") SortedList.add(v);
+                }
+              } else if (shuffleList[index] == "CASE CLOSED") {
+                for (FIRModel v in AllRunningFIR) {
+                  if (v.Status == "CASE CLOSED") SortedList.add(v);
+                }
+              } else if (shuffleList[index] == "ALL") {
+                SortedList.addAll(AllRunningFIR);
+              }
+              setState(() {
+                shuffle = !shuffle;
+              });
+            },
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: 20),
+              child: Center(child: Text(shuffleList[index])),
+              height: 50,
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  @override
+  void initState() {
+    SortedList.addAll(AllRunningFIR);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("All FIR"),
+        title: MyAppBar(),
+        actions: [
+          IconButton(
+              onPressed: () {
+                setState(() {
+                  shuffle = !shuffle;
+                });
+              },
+              icon: Icon(
+                Icons.sort,
+                color: Colors.white,
+              ))
+        ],
       ),
       body: Stack(
         children: [
@@ -23,67 +102,90 @@ class _AllAvailableFIRState extends State<AllAvailableFIR> {
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             child: ListView.builder(
-                itemCount: AllRunningFIR.length,
-                itemBuilder: (BuildContext ctx, int index){
+                itemCount: SortedList.length,
+                itemBuilder: (BuildContext ctx, int index) {
                   Color x = Colors.black12;
-                  if(AllRunningFIR[index].Status == "DELETED") x = Colors.red[200];
-                  else if(AllRunningFIR[index].Status == "CASE OPEN") x = Colors.green[200];
+                  if (SortedList[index].Status == "DELETED")
+                    x = Colors.red[200];
+                  else if (SortedList[index].Status == "CASE OPEN")
+                    x = Colors.green[200];
                   return InkWell(
-                    onTap: (){
-                      if(AllRunningFIR[index].CopId == "xxx"){
-                        _showMyDialog(AllRunningFIR[index].FIRId,Cop.CopId);
+                    onTap: () {
+                      if (SortedList[index].CopId == "xxx") {
+                        _showMyDialog(SortedList[index].FIRId, Cop.CopId);
                       }
                     },
                     child: Container(
-                      margin: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
-                      padding: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                      margin:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                       decoration: BoxDecoration(
                         color: x,
                         borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: Colors.black,width: 2),
+                        border: Border.all(color: Colors.black, width: 2),
                       ),
                       child: Column(
                         children: [
-                          Line("FIR ID", AllRunningFIR[index].FIRId),
-                          Line("Complaint Holder Name", AllRunningFIR[index].ComplaintHolderName),
-                          Line("Victim", AllRunningFIR[index].Victim),
-                          Line("Place", AllRunningFIR[index].Place),
-                          Line("Date", AllRunningFIR[index].Date),
-                          Line("Status", AllRunningFIR[index].Status),
-                          Line("Assignment", (AllRunningFIR[index].CopId == "xxx")?"Unassigned":"Assigned"),
-                          SizedBox(height: 5,),
-                          Center(
-                            child: Text("Description",style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold)),
+                          Line("FIR ID", SortedList[index].FIRId),
+                          Line("Complaint Holder Name",
+                              SortedList[index].ComplaintHolderName),
+                          Line("Victim", SortedList[index].Victim),
+                          Line("Place", SortedList[index].Place),
+                          Line("Date", SortedList[index].Date),
+                          Line("Status", SortedList[index].Status),
+                          Line(
+                              "Assignment",
+                              (SortedList[index].CopId == "xxx")
+                                  ? "Unassigned"
+                                  : SortedList[index].CopId),
+                          SizedBox(
+                            height: 5,
                           ),
-                          Text(AllRunningFIR[index].Description,style: TextStyle(fontSize: 15,fontStyle: FontStyle.italic)),
+                          Center(
+                            child: Text("Description",
+                                style: TextStyle(
+                                    fontSize: 15, fontWeight: FontWeight.bold)),
+                          ),
+                          Text(SortedList[index].Description,
+                              style: TextStyle(
+                                  fontSize: 15, fontStyle: FontStyle.italic)),
                         ],
                       ),
                     ),
                   );
-                }
-            ),
+                }),
           ),
-          (loading)?Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            color: Colors.black12,
-            child: Center(child: CircularProgressIndicator()),
-          ):Container(),
+          (loading)
+              ? Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                  color: Colors.black12,
+                  child: Center(child: CircularProgressIndicator()),
+                )
+              : Container(),
         ],
       ),
     );
   }
 
-  Widget Line(String a, String b){
+  Widget Line(String a, String b) {
     return Row(
       children: [
-        Text(a + ": ",style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold),),
-        Text(b,overflow: TextOverflow.ellipsis,maxLines: 2,),
+        Text(
+          a + ": ",
+          style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+        ),
+        Text(
+          b,
+          overflow: TextOverflow.ellipsis,
+          maxLines: 2,
+        ),
       ],
     );
   }
 
-  Future<void> _showMyDialog(String a,String b) async {
+  Future<void> _showMyDialog(String a, String b) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -110,15 +212,15 @@ class _AllAvailableFIRState extends State<AllAvailableFIR> {
                 setState(() {
                   loading = true;
                 });
-                TakingCharge(a,b,context).then((value){
+                TakingCharge(a, b, context).then((value) {
                   setState(() {
                     loading = false;
                   });
-                  if(value){
+                  if (value) {
                     Navigator.of(context).pop();
                     Navigator.of(context).pop();
-                  }
-                  else Navigator.of(context).pop();
+                  } else
+                    Navigator.of(context).pop();
                 });
               },
             ),
@@ -127,5 +229,4 @@ class _AllAvailableFIRState extends State<AllAvailableFIR> {
       },
     );
   }
-
 }

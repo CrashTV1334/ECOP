@@ -19,11 +19,16 @@ class _AllFIRState extends State<AllFIR> {
         child: ListView.builder(
           itemCount: AllRunningFIR.length,
             itemBuilder: (BuildContext ctx, int index){
+
+              Color x = Colors.black12;
+              if(AllRunningFIR[index].Status == "DELETED") x = Colors.red[200];
+              else if(AllRunningFIR[index].Status == "CASE OPEN") x = Colors.green[200];
+
               return Container(
                 margin: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
                 padding: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
                 decoration: BoxDecoration(
-                  color: AllRunningFIR[index].Status == "DELETED"?Colors.red[300]:Colors.black12,
+                  color: x,
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(color: Colors.black,width: 2),
                 ),
